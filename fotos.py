@@ -65,20 +65,18 @@ with st.spinner('El modelo se está cargando..'):
     model = load_model()
 
 with st.sidebar:
-    st.image('rosa.jpg')
+    st.image('img1.jpg')
     st.title("Reconocimiento Facial")
     st.subheader("Reconocimiento de rostros de estudiantes de la clase de Ciencias de Datos")
     st.markdown(
         """
-        <span style='color:red'>Esta es la primera página
-        Usted puede:
-        - Decir Hola
-        - Enviar un correo
-        - Contactar a crueda578@unab.edu.co </span>
+        <span style='color:red'>Contactenos:
+        - agutierrez739@unab.edu.co
+        - crueda578@unab.edu.co </span>
         """,
         unsafe_allow_html=True
     )
-    confianza = st.slider("Seleccione el nivel de confianza %", 0, 100, 50)
+
 
 col1, col2, col3 = st.columns(3)
 with col2:
