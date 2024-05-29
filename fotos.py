@@ -28,8 +28,8 @@
 # Importación de las librerías y dependencias necesarias para crear la interfaz de usuario y soportar los modelos de aprendizaje profundo usados en el proyecto
 import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
-import streamlit as st  
 import tensorflow as tf # TensorFlow es necesario para que Keras funcione
+import streamlit as st
 from PIL import Image
 import numpy as np
 # import cv2
@@ -47,9 +47,9 @@ st.set_page_config(
 
 # Ocultar parte del código, ya que esto es solo para agregar algo de estilo CSS personalizado, pero no es parte de la idea principal
 hide_streamlit_style = """
-	<style>
+    <style>
   #MainMenu {visibility: hidden;}
-	footer {visibility: hidden;}
+    footer {visibility: hidden;}
   </style>
 """
 
@@ -103,7 +103,12 @@ def import_and_predict(image_data, model, class_names):
 
 class_names = open("./clases.txt", "r").readlines()
 
+# Inicializar la lista de estudiantes reconocidos
+if 'student_list' not in st.session_state:
+    st.session_state['student_list'] = []
+
 img_file_buffer = st.camera_input("Capture una foto para identificar a un estudiante")
+
 if img_file_buffer is None:
     st.text("Por favor tome una foto")
 else:
@@ -117,5 +122,12 @@ else:
     if np.max(score) > 0.5:
         st.subheader(f"Estudiante Identificado: {class_name}")
         st.text(f"Puntuación de confianza: {100 * np.max(score):.2f}%")
+        if class_name not in st.session_state['student_list']:
+            st.session_state['student_list'].append(class_name)  # Agregar el nombre a la lista de estudiantes reconocidos
     else:
         st.text("No se pudo identificar al estudiante")
+
+    # Mostrar el listado de estudiantes
+    st.title("Listado de estudiantes")
+    for student in st.session_state['student_list']:
+        st.text(student)
